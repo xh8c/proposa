@@ -221,7 +221,7 @@ export default function App() {
       const res = await fetch("/api/generate", {
         method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({
-          model:"claude-sonnet-4-20250514", max_tokens:1000,
+          model:"claude-3-5-sonnet-20241022", max_tokens:1000,
           system:`You write interior design proposals. Sound like a real, confident designer — not a brochure or AI. Direct, warm, and specific to this exact client and project. No buzzwords like "bespoke journey", "curated experience". Write like you genuinely know this project. Return ONLY valid JSON, no markdown, no backticks. Schema:
 {"projectOverview":"2-3 sentences. Mention the client by name, the rooms, what you're going to do for them. Sound real.","designConcept":"3-4 sentences. Describe textures, light, materials, how it will feel to be in the space. Specific not generic.","scopeOfWork":["task","task","task","task","task","task"],"timeline":[{"phase":"Discovery & Concept","duration":"X weeks","description":"what happens"},{"phase":"Design Development","duration":"X weeks","description":"what happens"},{"phase":"Procurement & Installation","duration":"X weeks","description":"what happens"}],"investment":{"designFee":"$X,XXX","implementation":"$XX,XXX – $XX,XXX","total":"$XX,XXX – $XX,XXX"},"terms":"2 sentences. Clear payment structure. No fluff."}`,
           messages:[{role:"user",content:`Studio: ${profile.studioName}\nDesigner: ${profile.designerName}\nClient: ${proj.clientName}\nProject: ${proj.projectType}\nRooms: ${proj.rooms}\nBudget: ${proj.budget}\nStyle: ${proj.style}\nTimeline: ${proj.timeline}\nNotes: ${proj.notes||"None"}`}]
