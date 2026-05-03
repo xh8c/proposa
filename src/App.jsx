@@ -38,7 +38,13 @@ const CSS = `
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: #0c0c0c; }
   ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
-  @media print { .no-print { display: none !important; } }
+  @media print {
+    .no-print { display: none !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    @page { margin: 0; size: A4; }
+    body { margin: 0 !important; }
+    #proposal-doc { border-radius: 0 !important; }
+  }
 `;
 
 const T = {
@@ -425,7 +431,7 @@ function ProposalView({ profile, proj, p, accent, font, onNew, onEdit }) {
         <button style={T.btnP(accent)} onClick={()=>window.print()}>Print / Save PDF</button>
       </div>
 
-      <div style={{ background:"#fff", color:"#1a1a1a", borderRadius:3, overflow:"hidden", fontFamily:"'Jost',sans-serif" }}>
+      <div id="proposal-doc" style={{ background:"#fff", color:"#1a1a1a", borderRadius:3, overflow:"hidden", fontFamily:"'Jost',sans-serif" }}>
         <div style={{ background:"#0c0c0c", color:"#e8e0d4", padding:"3rem", borderBottom:`2px solid ${accent}` }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:"2.5rem" }}>
             {profile.logo
