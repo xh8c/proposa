@@ -44,7 +44,6 @@ const CSS = `
     @page { margin: 0; size: A4; }
     body { margin: 0 !important; background: #fff !important; }
     #proposal-doc { border-radius: 0 !important; }
-    #proposal-cover { page-break-after: always; break-after: always; }
     #proposal-footer { page-break-before: avoid; break-before: avoid; page-break-inside: avoid; break-inside: avoid; }
   }
 `;
@@ -407,7 +406,7 @@ export default function App() {
 
 function PS({ num, label, accent, children, last }) {
   return (
-    <div style={{ marginBottom:last?0:"2.5rem" }}>
+    <div style={{ marginBottom:last?0:"1.8rem" }}>
       <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:"1rem", paddingBottom:"0.6rem", borderBottom:`1px solid #e8e3dc` }}>
         <span style={{ fontSize:"11px", fontWeight:600, letterSpacing:"0.15em", textTransform:"uppercase", color:accent }}>{num}</span>
         <span style={{ fontSize:"11px", color:"#ccc" }}>—</span>
@@ -434,7 +433,7 @@ function ProposalView({ profile, proj, p, accent, font, onNew, onEdit }) {
       </div>
 
       <div id="proposal-doc" style={{ background:"#fff", color:"#1a1a1a", borderRadius:3, overflow:"hidden", fontFamily:"'Jost',sans-serif" }}>
-        <div id="proposal-cover" style={{ background:"#0c0c0c", color:"#e8e0d4", padding:"3rem", borderBottom:`2px solid ${accent}` }}>
+        <div style={{ background:"#0c0c0c", color:"#e8e0d4", padding:"2rem 3rem", borderBottom:`2px solid ${accent}` }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:"2.5rem" }}>
             {profile.logo
               ? <img src={profile.logo} alt="logo" style={{ height:44, maxWidth:160, objectFit:"contain" }}/>
@@ -445,7 +444,7 @@ function ProposalView({ profile, proj, p, accent, font, onNew, onEdit }) {
               <div style={{ fontSize:"11px", color:"#444", marginTop:4 }}>{today}</div>
             </div>
           </div>
-          <div style={{ fontFamily:pFont, fontSize:"2.8rem", fontWeight:300, lineHeight:1.15, marginBottom:"0.5rem" }}>{proj.projectType}</div>
+          <div style={{ fontFamily:pFont, fontSize:"2.4rem", fontWeight:300, lineHeight:1.15, marginBottom:"0.4rem" }}>{proj.projectType}</div>
           <div style={{ fontSize:"12px", color:"#555", letterSpacing:"0.05em", marginBottom:"2.5rem" }}>Prepared exclusively for {proj.clientName}</div>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:"1.5rem", paddingTop:"1.5rem", borderTop:"0.5px solid #1e1e1e" }}>
             {[["Rooms",proj.rooms],["Style",proj.style],["Timeline",proj.timeline],["Budget",proj.budget]].map(([l,v])=>(
@@ -458,12 +457,12 @@ function ProposalView({ profile, proj, p, accent, font, onNew, onEdit }) {
         </div>
 
         <div>
-          <div style={{ padding:"1.8rem 3rem 1.2rem", background:"#faf8f5", borderBottom:"0.5px solid #ece8e2" }}>
+          <div style={{ padding:"1.2rem 3rem 1rem", background:"#faf8f5", borderBottom:"0.5px solid #ece8e2" }}>
             <div style={{ fontSize:"8px", letterSpacing:"0.22em", textTransform:"uppercase", color:accent, marginBottom:8 }}>Visual Direction</div>
             <div style={{ fontFamily:pFont, fontSize:"1.5rem", fontWeight:400, color:"#1a1a1a", marginBottom:4 }}>Moodboard & Aesthetic Reference</div>
             <div style={{ fontSize:"11px", color:"#aaa" }}>Curated references for the {proj.style} direction</div>
           </div>
-          <div style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr", gridTemplateRows:"190px 190px", gap:3, background:"#f0ebe3" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr", gridTemplateRows:"160px 160px", gap:3, background:"#f0ebe3" }}>
             {imgs.map((img,i)=>(
               <div key={i} style={{ gridRow:i===0?"1/3":undefined, gridColumn:i===3?"2/4":undefined, background:["#e8e3dc","#ddd8d0","#d4cfc7","#cbc6bd"][i], overflow:"hidden" }}>
                 {img
@@ -477,9 +476,9 @@ function ProposalView({ profile, proj, p, accent, font, onNew, onEdit }) {
           </div>
         </div>
 
-        <div style={{ padding:"2.5rem 3rem" }}>
+        <div style={{ padding:"1.8rem 3rem" }}>
           <PS num="01" label="The Project" accent={accent}>
-            <p style={{ fontFamily:pFont, fontSize:"1.1rem", fontWeight:400, lineHeight:1.9, color:"#3a3632" }}>{p.projectOverview}</p>
+            <p style={{ fontFamily:pFont, fontSize:"0.95rem", fontWeight:400, lineHeight:1.8, color:"#3a3632" }}>{p.projectOverview}</p>
           </PS>
           <PS num="02" label="Design Concept" accent={accent}>
             <p style={{ fontSize:"13px", lineHeight:1.95, color:"#3a3632" }}>{p.designConcept}</p>
