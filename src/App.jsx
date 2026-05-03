@@ -41,11 +41,11 @@ const CSS = `
   @media print {
     .no-print { display: none !important; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    @page { margin: 10mm; size: A4; }
+    @page { margin: 0; size: A4; }
     body { margin: 0 !important; background: #fff !important; }
     #proposal-doc { border-radius: 0 !important; }
-    #proposal-footer { page-break-inside: avoid; break-inside: avoid; }
-    #proposal-doc > div:last-child { height: auto !important; min-height: 0 !important; }
+    #proposal-cover { page-break-after: always; break-after: always; }
+    #proposal-footer { page-break-before: avoid; break-before: avoid; page-break-inside: avoid; break-inside: avoid; }
   }
 `;
 
@@ -408,10 +408,10 @@ export default function App() {
 function PS({ num, label, accent, children, last }) {
   return (
     <div style={{ marginBottom:last?0:"2.5rem" }}>
-      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:"1rem", paddingBottom:"0.5rem", borderBottom:"0.5px solid #ece8e2" }}>
-        <span style={{ fontSize:"8px", letterSpacing:"0.22em", textTransform:"uppercase", color:accent }}>{num}</span>
-        <span style={{ fontSize:"8px", color:"#ccc" }}>—</span>
-        <span style={{ fontSize:"8px", letterSpacing:"0.22em", textTransform:"uppercase", color:"#bbb" }}>{label}</span>
+      <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:"1rem", paddingBottom:"0.6rem", borderBottom:`1px solid #e8e3dc` }}>
+        <span style={{ fontSize:"11px", fontWeight:600, letterSpacing:"0.15em", textTransform:"uppercase", color:accent }}>{num}</span>
+        <span style={{ fontSize:"11px", color:"#ccc" }}>—</span>
+        <span style={{ fontSize:"11px", fontWeight:500, letterSpacing:"0.15em", textTransform:"uppercase", color:"#555" }}>{label}</span>
       </div>
       {children}
     </div>
@@ -434,7 +434,7 @@ function ProposalView({ profile, proj, p, accent, font, onNew, onEdit }) {
       </div>
 
       <div id="proposal-doc" style={{ background:"#fff", color:"#1a1a1a", borderRadius:3, overflow:"hidden", fontFamily:"'Jost',sans-serif" }}>
-        <div style={{ background:"#0c0c0c", color:"#e8e0d4", padding:"3rem", borderBottom:`2px solid ${accent}` }}>
+        <div id="proposal-cover" style={{ background:"#0c0c0c", color:"#e8e0d4", padding:"3rem", borderBottom:`2px solid ${accent}` }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:"2.5rem" }}>
             {profile.logo
               ? <img src={profile.logo} alt="logo" style={{ height:44, maxWidth:160, objectFit:"contain" }}/>
@@ -479,7 +479,7 @@ function ProposalView({ profile, proj, p, accent, font, onNew, onEdit }) {
 
         <div style={{ padding:"2.5rem 3rem" }}>
           <PS num="01" label="The Project" accent={accent}>
-            <p style={{ fontFamily:pFont, fontSize:"1.05rem", fontWeight:300, lineHeight:2, color:"#3a3632", fontStyle:"italic" }}>{p.projectOverview}</p>
+            <p style={{ fontFamily:pFont, fontSize:"1.1rem", fontWeight:400, lineHeight:1.9, color:"#3a3632" }}>{p.projectOverview}</p>
           </PS>
           <PS num="02" label="Design Concept" accent={accent}>
             <p style={{ fontSize:"13px", lineHeight:1.95, color:"#3a3632" }}>{p.designConcept}</p>
