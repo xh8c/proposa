@@ -3,29 +3,39 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured. Add ANTHROPIC_API_KEY in Vercel environment variables.' });
+    return res.status(500).json({ error: 'GROQ_API_KEY not set in Vercel environment variables.' });
   }
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const { messages, system } = req.body;
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
+        'Authorization': `Bearer ${apiKey}`,
       },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 1500,
+        messages: [
+          { role: 'system', content: system },
+          ...messages
+        ],
+      }),
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      return res.status(response.status).json({ error: data.error?.message || 'Anthropic API error', detail: data });
+      return res.status(response.status).json({ error: data.error?.message || 'Groq API error' });
     }
 
-    return res.status(200).json(data);
+    const text = data.choices?.[0]?.message?.content || '';
+    return res.status(200).json({ text });
+
   } catch (error) {
     return res.status(500).json({ error: error.message || 'Generation failed' });
   }

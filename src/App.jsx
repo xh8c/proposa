@@ -221,14 +221,13 @@ export default function App() {
       const res = await fetch("/api/generate", {
         method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({
-          model:"claude-3-5-sonnet-20241022", max_tokens:1000,
-          system:`You write interior design proposals. Sound like a real, confident designer — not a brochure or AI. Direct, warm, and specific to this exact client and project. No buzzwords like "bespoke journey", "curated experience". Write like you genuinely know this project. Return ONLY valid JSON, no markdown, no backticks. Schema:
-{"projectOverview":"2-3 sentences. Mention the client by name, the rooms, what you're going to do for them. Sound real.","designConcept":"3-4 sentences. Describe textures, light, materials, how it will feel to be in the space. Specific not generic.","scopeOfWork":["task","task","task","task","task","task"],"timeline":[{"phase":"Discovery & Concept","duration":"X weeks","description":"what happens"},{"phase":"Design Development","duration":"X weeks","description":"what happens"},{"phase":"Procurement & Installation","duration":"X weeks","description":"what happens"}],"investment":{"designFee":"$X,XXX","implementation":"$XX,XXX – $XX,XXX","total":"$XX,XXX – $XX,XXX"},"terms":"2 sentences. Clear payment structure. No fluff."}`,
-          messages:[{role:"user",content:`Studio: ${profile.studioName}\nDesigner: ${profile.designerName}\nClient: ${proj.clientName}\nProject: ${proj.projectType}\nRooms: ${proj.rooms}\nBudget: ${proj.budget}\nStyle: ${proj.style}\nTimeline: ${proj.timeline}\nNotes: ${proj.notes||"None"}`}]
+          system:`You write interior design proposals. Sound like a real confident designer not a brochure. Be direct warm and specific. No buzzwords. Return ONLY valid JSON no markdown no backticks. Schema: {"projectOverview":"2-3 sentences mention the client by name and rooms sound real","designConcept":"3-4 sentences describe textures light materials how it will feel specific not generic","scopeOfWork":["task","task","task","task","task","task"],"timeline":[{"phase":"Discovery and Concept","duration":"X weeks","description":"what happens"},{"phase":"Design Development","duration":"X weeks","description":"what happens"},{"phase":"Procurement and Installation","duration":"X weeks","description":"what happens"}],"investment":{"designFee":"$X,XXX","implementation":"$XX,XXX to $XX,XXX","total":"$XX,XXX to $XX,XXX"},"terms":"2 sentences clear payment structure no fluff"}`,
+          messages:[{role:"user",content:`Studio: ${profile.studioName} Designer: ${profile.designerName} Client: ${proj.clientName} Project: ${proj.projectType} Rooms: ${proj.rooms} Budget: ${proj.budget} Style: ${proj.style} Timeline: ${proj.timeline} Notes: ${proj.notes||"None"}`}]
         })
       });
       const data = await res.json();
-      const txt = data.content[0].text.replace(/```json|```/g,"").trim();
+      if (data.error) throw new Error(data.error);
+      const txt = data.text.replace(/```json|```/g,"").trim();
       setProposal(JSON.parse(txt)); setStep("preview");
     } catch(e) { setErr("Generation failed. Please try again."); setStep("form"); }
   };
