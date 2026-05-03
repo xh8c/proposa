@@ -41,9 +41,11 @@ const CSS = `
   @media print {
     .no-print { display: none !important; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    @page { margin: 0; size: A4; }
-    body { margin: 0 !important; }
+    @page { margin: 10mm; size: A4; }
+    body { margin: 0 !important; background: #fff !important; }
     #proposal-doc { border-radius: 0 !important; }
+    #proposal-footer { page-break-inside: avoid; break-inside: avoid; }
+    #proposal-doc > div:last-child { height: auto !important; min-height: 0 !important; }
   }
 `;
 
@@ -523,7 +525,7 @@ function ProposalView({ profile, proj, p, accent, font, onNew, onEdit }) {
           </PS>
         </div>
 
-        <div style={{ background:"#0c0c0c", padding:"1.5rem 3rem", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+        <div id="proposal-footer" style={{ background:"#0c0c0c", padding:"1.5rem 3rem", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
           {profile.logo
             ? <img src={profile.logo} alt="logo" style={{ height:28, maxWidth:110, objectFit:"contain" }}/>
             : <div style={{ fontFamily:pFont, fontSize:"0.85rem", letterSpacing:"0.12em", color:accent, textTransform:"uppercase" }}>{profile.studioName}</div>
